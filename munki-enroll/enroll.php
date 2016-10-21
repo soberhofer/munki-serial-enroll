@@ -40,9 +40,9 @@ if((isset($_GET["serial"])) AND (isset($_GET["displayname"])) AND (isset($_GET["
                 echo "Computer manifest does not exist. Will create " . $destination;
                 copy($source, $destination);
             
-                // Add in the proper display name
+                // Add in the proper display name with a quick find/replace
                 shell_exec('/usr/bin/sed -i.bak ' . '"s/DISPLAYNAMETOREPLACE/' . $displayname . '/g" ' . $destination); 
-                // Delete file
+                // Delete the backup file
                 unlink("../manifests/" . $serial . ".bak");
 
             }
