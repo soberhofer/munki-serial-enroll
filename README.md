@@ -19,19 +19,22 @@ The original Munki Enroll creates individual manifests based on hostname and wri
 
 Munki Enroll requires PHP to be working on the webserver hosting your Munki repository.
 
-Copy the "munki-enroll" folder to the root of your Munki repository (the same directory as pkgs, pkginfo, manifests and catalogs). 
+Copy the **munki-enroll** folder to the root of your Munki repository (the same directory as pkgs, pkginfo, manifests and catalogs). 
+
+Also copy the **desktop_template** and **laptop_template** files to your manifests folder and modify them appropriately. Leave in the
+```
+	<key>display_name</key>
+	<string>DISPLAYNAMETOREPLACE</string>
+```
+bit, though, because that's what gets replaced later after the template is copied.
 
 Make sure the Apache or other www user has write access to the manifests folder.  
 
 That's it on the server side! Be sure to make note of the full URL path to the enroll.php file.
 
-On the client side, tweak (for your organization) the two user-defined variables and run the munki_enroll.sh script, which will then communicate with the server about what manifest to create.
-
 ## Client Configuration
 
-Edit the included munki_enroll.sh script to include the full URL path to the enroll.php file on your Munki repository.
-
-	SUBMITURL="https://munki/munki-enroll/enroll.php"
+On the client side, tweak (for your organization) the two user-defined variables and run the munki_enroll.sh script, which will then communicate with the server about what manifest to create.
 
 The included munki_enroll.sh script can be executed in any number of ways (Terminal, ARD, DeployStudio workflow, LaunchAgent, etc.). Once the script is executed, the Client Identifier is switched to a unique identifier based on the system's hostname.
 
