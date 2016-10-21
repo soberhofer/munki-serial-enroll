@@ -35,9 +35,6 @@ Edit the included munki_enroll.sh script to include the full URL path to the enr
 
 The included munki_enroll.sh script can be executed in any number of ways (Terminal, ARD, DeployStudio workflow, LaunchAgent, etc.). Once the script is executed, the Client Identifier is switched to a unique identifier based on the system's hostname.
 
-## Work to do
-Linux is a very popular choice for hosting Munki servers, but I happen to be using a macOS machine to host the server, so I shortsightedly used Plistbuddy to modify the template. Probably better to post up an example template and then do a find/replace with _sed_. That's on the to-do list!
-
 ## Acknowledgements
 I've done a lot of work on this, but a lot of credit for this concept must go to [Cody Eding](https://github.com/edingc), the creator of Munki-Enroll, which I forked this from.
 
