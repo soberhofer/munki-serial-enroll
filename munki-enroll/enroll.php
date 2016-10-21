@@ -39,12 +39,12 @@ if((isset($_GET["serial"])) AND (isset($_GET["displayname"])) AND (isset($_GET["
                 // Create the manifest
                 echo "Computer manifest does not exist. Will create " . $destination;
                 copy($source, $destination);
-
+            
                 // Add in the proper display name
-                // Comment out this command if you aren't using macOS, which you likely aren't.
-                // For Linux, you can put in a placeholder in the template to copy and then use the sed command to find/replace text
-                // Will probably go this route for future versions, so it's not tied to macOS
-                shell_exec('/usr/libexec/PlistBuddy -c "Add :display_name string ' . "'" . $displayname . "'" . '" ' . $destination);
+                shell_exec('/usr/bin/sed -i.bak ' . '"s/DISPLAYNAMETOREPLACE/' . $displayname . '/g" ' . $destination); 
+                // Delete file
+                unlink("../manifests/" . $serial . ".bak");
+
             }
 
         // End checking for source manifest existence
