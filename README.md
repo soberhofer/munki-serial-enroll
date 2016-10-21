@@ -36,7 +36,7 @@ That's it on the server side! Be sure to make note of the full URL path to the e
 
 On the client side, tweak (for your organization) the two user-defined variables and run the munki_enroll.sh script, which will then communicate with the server about what manifest to create.
 
-The included munki_enroll.sh script can be executed in any number of ways (Terminal, ARD, DeployStudio workflow, LaunchAgent, etc.). Once the script is executed, the Client Identifier is switched to a unique identifier based on the system's hostname.
+The included munki_enroll.sh script can be executed in any number of ways (Terminal, ARD, DeployStudio workflow, LaunchAgent, etc.).
 
 ## Acknowledgements
 I've done a lot of work on this, but a lot of credit for this concept must go to [Cody Eding](https://github.com/edingc), the creator of Munki-Enroll, which I forked this from.
