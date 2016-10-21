@@ -1,30 +1,88 @@
 #!/bin/sh 
 
-# Gather computer information
-IDENTIFIER=$( defaults read /Library/Preferences/ManagedInstalls ClientIdentifier ); 
-HOSTNAMETEMP=$( scutil --get ComputerName );
-# Subs in underscores for spaces in the HOSTNAME
-HOSTNAME=${HOSTNAMETEMP// /_}
+##### Tweak on the original Munki-Enroll
+##### This has different logic based on whether the computer is a desktop or a laptop
+##### If it's a laptop, the script grabs the user's full name
+##### If it's a desktop, the script just grabs the computer's name
+##### This version of the script also assumes you have an https-enabled Munki server with basic authentication
+##### Change SUBMITURL's variable value to your actual URL
+##### Also change YOURLOCALADMINACCOUNT if you have one
 
+#######################
+## User-set variables
 # Change this URL to the location fo your Munki Enroll install
-SUBMITURL="http://localhost:8888/munki/munki-enroll/enroll.php"
+SUBMITURL="https://your.companyname.com/path/to/enroll.php"
+# Change this to a local admin account you have if you have one
+ADMINACCOUNT="YOURLOCALADMINACCOUNT"
+#######################
 
-# Application paths
-CURL="/usr/bin/curl"
+# Make sure there is an active Internet connection
+SHORTURL=$(echo "$SUBMITURL" | awk -F/ '{print $3}')
+PINGTEST=$(ping -o "$SHORTURL" | grep "64 bytes")
 
-$CURL --max-time 5 --silent --get \
-    -d hostname="$HOSTNAME" \
-    -d identifier="$IDENTIFIER" \
-    "$SUBMITURL"
+if [ ! -z "$PINGTEST" ]; then
 
-# This is a fix for clients based on a manifest in the root /manifests directory
-# See GitHub issue No. 5
-if [ $( echo "$IDENTIFIER" | grep "/" ) ]
-then
-  IDENTIFIER_PATH=$( echo "$IDENTIFIER" | sed 's/\/[^/]*$//' ); 
-  defaults write /Library/Preferences/ManagedInstalls ClientIdentifier "$IDENTIFIER_PATH/clients/$HOSTNAME"
+   # Always get the serial number
+   SERIAL=$(/usr/sbin/system_profiler SPHardwareDataType | /usr/bin/awk '/Serial Number/ { print $4; }')
+
+   # Determine if it's a laptop or a desktop
+   LAPTOPMODEL=$(/usr/sbin/system_profiler SPHardwareDataType | /usr/bin/grep "Model Identifier" | /usr/bin/grep "Book" | awk -F ": " '{print $2}')
+
+   # If it's a desktop...
+   if [ -z "$LAPTOPMODEL" ]; then
+
+      # Make the manifest template desktop
+      TEMPLATE="desktop"
+
+      # Make the "display name" into the actual computer name
+      DISPLAYNAME=$(/usr/sbin/scutil --get ComputerName | /usr/bin/sed 's/ /-/g')
+
+   # If it's a laptop...
+   else
+   
+      # Make the manifest template laptop
+      TEMPLATE="laptop"
+
+      # Get the primary user
+      PRIMARYUSER=''
+      # This is a little imprecise, because it's basically going by process of elimination, but that will pretty much work for the setup we have
+      cd /Users
+      for u in *; do
+         if [ "$u" != "Guest" ] && [ "$u" != "Shared" ] && [ "$u" != "root" ] && [ "$u" != "$ADMINACCOUNT" ]; then
+            PRIMARYUSER="$u"
+         fi
+      done
+   
+      if [ "$PRIMARYUSER" != "" ]; then
+         
+         # Add real name (not just username) of user
+         DISPLAYNAME=$(/usr/bin/dscl . -read /Users/"$PRIMARYUSER" dsAttrTypeStandard:RealName | /usr/bin/sed 's/RealName://g' | /usr/bin/tr '\n' ' ' | /usr/bin/sed 's/^ *//;s/ *$//' | /usr/bin/sed 's/ /%20/g')   
+         # Add laptop model
+         DISPLAYNAME+="%20($LAPTOPMODEL)"
+
+      else
+         
+         DISPLAYNAME="Undefined%20-%20Fix%20Later"
+      fi
+
+   # End checking for desktop v. laptop
+   fi
+
+   # Get the authorization information
+   AUTH=$( /usr/bin/defaults read /var/root/Library/Preferences/ManagedInstalls.plist AdditionalHttpHeaders | /usr/bin/awk -F 'Basic ' '{print $2}' | /usr/bin/sed 's/.$//' | /usr/bin/base64 --decode )
+
+   # Send information to the server to make the manifest
+   /usr/bin/curl --max-time 5 --silent --get \
+      -d displayname="$DISPLAYNAME" \
+      -d serial="$SERIAL" \
+      -d template="$TEMPLATE" \
+      -u "$AUTH" "$SUBMITURL"
+      # If not basic authentication, then just "$SUBMITURL" for the last line 
+
+   # Delete the ClientIdentifier, since we'll be using the serial number
+   sudo /usr/bin/defaults delete /Library/Preferences/ManagedInstalls ClientIdentifier
+   sudo /usr/bin/defaults delete /var/root/Library/Preferences/ManagedInstalls ClientIdentifier
 else
-  defaults write /Library/Preferences/ManagedInstalls ClientIdentifier "clients/$HOSTNAME"
+   # No good connection to the server
+   exit 1
 fi
- 
-exit 0
