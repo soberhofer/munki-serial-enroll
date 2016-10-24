@@ -38,6 +38,12 @@ On the client side, tweak (for your organization) the two user-defined variables
 
 The included munki_enroll.sh script can be executed in any number of ways (Terminal, ARD, DeployStudio workflow, LaunchAgent, etc.).
 
+## What if this workflow doesn't fit my organization's?
+
+It actually very likely _won't_ fit your organizations. Every organization has its own workflow. Vanilla Munki Serial Enroll assumes https with basic authentication. You might be using SSL client certificates. It also assumes you have different manifest display names in desktops than you do in laptops. All your display names may follow the same pattern, or you may differentiate on MacBook Airs vs. MacBook Pros. It's really impossible to write an enrollment script that will exactly match every organization's needs, even if some arguments were added in. I don't know what your server address is. I don't know what types of things you want to put in the display name (maybe you don't want a specific user or the name of the computer&mdash;maybe you want something else entirely).
+
+The idea isn't that you just use this set of scripts out of the box. The idea is more "This has been helpful to me and my organization, and it may be helpful to you and your organization, too. The workflows in here may give you ideas of how you want to create your own workflows." Chances are, if you're a Mac admin using Munki, you have at least a little bit of scripting chops and can tweak these scripts to suit your organization's needs.
+
 ## Acknowledgements
 I've done a lot of work on this, but a lot of credit for this concept must go to [Cody Eding](https://github.com/edingc), the creator of Munki-Enroll, which I forked this from.
 
