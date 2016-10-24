@@ -18,7 +18,7 @@ ADMINACCOUNT="YOURLOCALADMINACCOUNT"
 
 # Make sure there is an active Internet connection
 SHORTURL=$(echo "$SUBMITURL" | awk -F/ '{print $3}')
-PINGTEST=$(ping -o "$SHORTURL" | grep "64 bytes")
+PINGTEST=$(ping -o -t 4 "$SHORTURL" | grep "64 bytes")
 
 if [ ! -z "$PINGTEST" ]; then
 
