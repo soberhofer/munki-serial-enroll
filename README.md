@@ -8,7 +8,7 @@ Using serial number manifests with human-readable display names and included gro
 
 ### Wait, Doesn't Munki Do This Already?
 
-Munki can target systems based on hostnames or serial numbers. However, each manifest must be created by hand. Munki Enroll allows us to create specific manifests automatically, and to allow them to contain a more generic manifest for large-scale software management.
+Munki can target systems based on hostnames or serial numbers. However, each manifest must be created by hand. Munki Serial Enroll allows us to create specific manifests automatically, and to allow them to contain a more generic manifest for large-scale software management.
 
 ## How does this differ from regular Munki Enroll?
 It has a few logistical tweaks for my organization that others may find immediately helpful or may find ideas in that they can tweak for their own organizations, but it's also different in approach.
