@@ -28,7 +28,7 @@ Also copy the **desktop_template** and **laptop_template** files to your manifes
 ```
 bit, though, because that's what gets replaced later after the template is copied.
 
-Make sure the Apache or other www user has write access to the manifests folder.  
+Make sure the Apache or other &#95;www user has write access to the manifests folder.  
 
 That's it on the server side! Be sure to make note of the full URL path to the enroll.php file.
 
@@ -45,8 +45,8 @@ It actually very likely _won't_ fit your organizations. Every organization has i
 The idea isn't that you just use this set of scripts out of the box. The idea is more "This has been helpful to me and my organization, and it may be helpful to you and your organization, too. The workflows in here may give you ideas of how you want to create your own workflows." Chances are, if you're a Mac admin using Munki, you have at least a little bit of scripting chops and can tweak these scripts to suit your organization's needs.
 
 ## Acknowledgements
-I've done a lot of work on this, but a lot of credit for this concept must go to [Cody Eding](https://github.com/edingc), the creator of Munki-Enroll, which I forked this from.
+I've done a hefty bit of work on this, but a lot of credit for this concept must go to [Cody Eding](https://github.com/edingc), the creator of Munki Enroll, which I forked this from.
 
 ## License
 
-Munki-Serial-Enroll is published under the [MIT License](http://www.opensource.org/licenses/mit-license.php).
+Munki Serial Enroll is published under the [MIT License](http://www.opensource.org/licenses/mit-license.php).
