@@ -2,6 +2,9 @@
 
 A set of scripts to automatically enroll clients in Munki, allowing for a very flexible manifest structure.
 
+## Essential reading
+Before you even think about using Munki Serial Enroll, Munki Enroll, or anything like these projects, please read [An opinionated guide to Munki manifests](https://groob.io/posts/manifest-guide/) and [Another opinionated guide to Munki manifests](http://technology.siprep.org/another-opinionated-guide-to-munki-manifests/) first.
+
 ## Why Munki Serial Enroll?
 
 Using serial number manifests with human-readable display names and included group manifests allows for maximum flexibility. You can deploy software to a single machine or a group of machines.
