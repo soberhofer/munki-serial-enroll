@@ -80,8 +80,16 @@ if [ ! -z "$PINGTEST" ]; then
       # If not basic authentication, then just "$SUBMITURL" for the last line 
 
    # Delete the ClientIdentifier, since we'll be using the serial number
-   sudo /usr/bin/defaults delete /Library/Preferences/ManagedInstalls ClientIdentifier
-   sudo /usr/bin/defaults delete /var/root/Library/Preferences/ManagedInstalls ClientIdentifier
+   function deleteClientIdentifier {
+      clientIdentifier=$(defaults read "$1" | grep "ClientIdentifier")
+      if [ ! -z "$clientIdentifier" ]; then
+         sudo /usr/bin/defaults delete "$1" ClientIdentifier
+      fi 
+   }
+   
+   deleteClientIdentifier "/Library/Preferences/ManagedInstalls"
+   deleteClientIdentifier "/var/root/Library/Preferences/ManagedInstalls"
+
 else
    # No good connection to the server
    exit 1
