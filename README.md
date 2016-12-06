@@ -20,7 +20,7 @@ The original Munki Enroll creates individual manifests based on hostname and wri
 
 ## Server Configuration
 
-Munki Enroll requires PHP to be working on the webserver hosting your Munki repository.
+Munki Serial Enroll requires PHP to be working on the webserver hosting your Munki repository.
 
 Copy the **munki-enroll** folder to the root of your Munki repository (the same directory as pkgs, pkginfo, manifests and catalogs). 
 
