@@ -41,7 +41,12 @@ if((isset($_GET["serial"])) AND (isset($_GET["displayname"])) AND (isset($_GET["
                 copy($source, $destination);
             
                 // Add in the proper display name with a quick find/replace
+                // The sed binary lives in different places, depending on the hosting server OS
+                // For macOS, it's at /usr/bin/sed
                 shell_exec('/usr/bin/sed -i.bak ' . '"s/DISPLAYNAMETOREPLACE/' . $displayname . '/g" ' . $destination); 
+
+                // For Ubuntu (and perhaps other Linux distros?), it's at /bin/sed
+                // shell_exec('/bin/sed -i.bak ' . '"s/DISPLAYNAMETOREPLACE/' . $displayname . '/g" ' . $destination); 
                 // Delete the backup file
                 unlink("../manifests/" . $serial . ".bak");
 
