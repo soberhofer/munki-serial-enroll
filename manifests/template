@@ -4,13 +4,15 @@
 <dict>
 	<key>catalogs</key>
 	<array>
-		<string>NAMEOFCATALOG</string>
+		<string>production</string>
 	</array>
 	<key>display_name</key>
 	<string>DISPLAYNAMETOREPLACE</string>
+	<key>user</key>
+	<string>USERNAMETOREPLACE</string>
 	<key>included_manifests</key>
 	<array>
-		<string>INCLUDEDMANIFEST</string>
+		<string>common</string>
 	</array>
 </dict>
 </plist>

@@ -1,28 +1,16 @@
 <?php
 
-if((isset($_GET["serial"])) AND (isset($_GET["displayname"])) AND (isset($_GET["template"]))){
+if((isset($_GET["serial"])) AND (isset($_GET["displayname"])) AND (isset($_GET["username"]))){
 
     // Get the variables passed by the enroll script
     $serial = $_GET["serial"];
     $displayname = $_GET["displayname"];
-    $template = $_GET["template"];
+    $username = $_GET["username"];
 
     // Specify the template source to be copied as an individual template
-    if($template == "desktop"){
-    
-            $source="../manifests/desktop_template";
-
-        } elseif($template == "laptop") {
-            
-            $source="../manifests/laptop_template";
-        
-        } else {
-        
-            $source="";
-        
-        }
-
-    // Double-check there is a source to copy from
+    $source="../manifests/template";
+	
+	// Double-check there is a source to copy from
     if(($source!="") AND (file_exists($source))){
 
         // Create destination
@@ -47,6 +35,12 @@ if((isset($_GET["serial"])) AND (isset($_GET["displayname"])) AND (isset($_GET["
 
                 // For Ubuntu (and perhaps other Linux distros?), it's at /bin/sed
                 // shell_exec('/bin/sed -i.bak ' . '"s/DISPLAYNAMETOREPLACE/' . $displayname . '/g" ' . $destination); 
+
+                // Add in the proper user name with a quick find/replace
+                // The sed binary lives in different places, depending on the hosting server OS
+                // For macOS, it's at /usr/bin/sed
+                shell_exec('/usr/bin/sed -i.bak ' . '"s/USERNAMETOREPLACE/' . $username . '/g" ' . $destination); 
+
                 // Delete the backup file
                 unlink("../manifests/" . $serial . ".bak");
 
