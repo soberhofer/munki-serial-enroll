@@ -46,7 +46,7 @@ if [ ! -z "$PINGTEST" ]; then
       USERNAME="Undefined%20-%20Fix%20Later"
    fi
    # Get the authorization information
-   AUTH=$( managedsoftwareupdate --show-config | /usr/bin/awk -F 'Basic ' '{print $2}' | /usr/bin/sed 's/.$//' | /usr/bin/base64 --decode )
+   AUTH=$( /usr/local/munki/managedsoftwareupdate --show-config | /usr/bin/awk -F 'Basic ' '{print $2}' | /usr/bin/sed 's/.$//' | /usr/bin/base64 --decode )
 
    # Send information to the server to make the manifest
    /usr/bin/curl --max-time 5 --silent --get \
