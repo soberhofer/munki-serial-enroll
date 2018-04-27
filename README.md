@@ -20,6 +20,7 @@ The original Munki Enroll creates individual manifests based on hostname and wri
 
 ## And How does this differ from Munki Serial Enroll?
 We don't differentiate between Laptops and Desktops, but we also want to have the Display name of the Manifest filled out with our internal incremented Inventory Number. So just as the "original" Munki Serial Enroll, this fork is more or less just a slightly tweaked version to fit our org's needs.
+Also this Version gets the Basic Auth Information based on the `managedsoftwareupdate --show-config` command, so it also works if the Basic Auch Information is set via Profile
 
 ## Server Configuration
 
