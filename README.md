@@ -1,4 +1,4 @@
-# Munki Serial Enroll
+# Munki Serial Enroll - (Fork of a Fork)
 
 A set of scripts to automatically enroll clients in Munki, allowing for a very flexible manifest structure.
 
@@ -17,6 +17,9 @@ Munki can target systems based on hostnames or serial numbers. However, each man
 It has a few logistical tweaks for my organization that others may find immediately helpful or may find ideas in that they can tweak for their own organizations, but it's also different in approach.
 
 The original Munki Enroll creates individual manifests based on hostname and writes the hostname back as a ClientIdentifier on the  client itself. Munki Serial Enroll goes based off of serial number, copies a template manifest (instead of creating one from scratch), and actually deletes the ClientIdentifier entirely.
+
+## And How does this differ from Munki Serial Enroll?
+We don't differentiate between Laptops and Desktops, but we also want to have the Display name of the Manifest filled out with our internal incremented Inventory Number. So just as the "original" Munki Serial Enroll, this fork is more or less just a slightly tweaked version to fit our org's needs.
 
 ## Server Configuration
 
